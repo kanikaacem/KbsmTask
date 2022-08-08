@@ -12,34 +12,34 @@
     <title>KSBM</title>
   </head>
   <body>
-   <h1 class="heading"> Add Event </h1>
+   <h1 class="heading"> Edit Event </h1>
    <a class="action_button" href="/dashboard"> Back </a>
 
-   <form id="event_form"  method="POST" action="{{ url('add-event')  }}">
+   <form id="event_form"  method="POST" action="{{ url('update-event')  }}">
    @csrf
+   <input type="hidden" name="event_id" value="{{ $Event->id }}">
    <div class="form-check">
-  <input class="form-check-input" name="category[]" type="checkbox" value="today" id="flexCheckDefault" {{ (is_array(old('category')) && in_array('today', old('category'))) ? ' checked' : '' }} checked >
+  <input class="form-check-input" name="category[]" type="checkbox" value="today" id="flexCheckDefault" {{ (   in_array('today',explode(',' , $Event->event_category))) ? ' checked' : '' }} >
   <label class="form-check-label" for="flexCheckDefault">
    Today
   </label>
 </div>
-
 <div class="form-check">
-  <input class="form-check-input" name="category[]" type="checkbox" value="week" id="flexCheckDefault" {{ (is_array(old('category')) && in_array('week', old('category'))) ? ' checked' : '' }}>
+  <input class="form-check-input" name="category[]" type="checkbox" value="week" id="flexCheckDefault" {{ (   in_array('week',explode(',' , $Event->event_category))) ? ' checked' : '' }}>
   <label class="form-check-label" for="flexCheckDefault">
   This Week
   </label>
 </div>
 
 <div class="form-check">
-  <input class="form-check-input" name="category[]" type="checkbox" value="month" id="flexCheckDefault" {{ (is_array(old('category')) && in_array('month', old('category'))) ? ' checked' : '' }}>
+  <input class="form-check-input" name="category[]" type="checkbox" value="month" id="flexCheckDefault" {{ (   in_array('month',explode(',' , $Event->event_category))) ? ' checked' : '' }}>
   <label class="form-check-label" for="flexCheckDefault">
    This Month
   </label>
 </div>
 
 <div class="form-check">
-  <input class="form-check-input" name="category[]" type="checkbox" value="year" id="flexCheckDefault" {{ (is_array(old('category')) && in_array('year', old('category'))) ? ' checked' : '' }}>
+  <input class="form-check-input" name="category[]" type="checkbox" value="year" id="flexCheckDefault" {{ (   in_array('year',explode(',' , $Event->event_category))) ? ' checked' : '' }}>
   <label class="form-check-label" for="flexCheckDefault">
    This Year
   </label>
@@ -48,7 +48,7 @@
    <div class="mb-3 row">
     <label for="Event" class="col-sm-4 col-form-label">Event Name</label>
     <div class="col-sm-12">
-    <input type="text" name="event_name" class="form-control" id="inputPassword" value="{{ old('event_name') }}">
+    <input type="text" name="event_name" class="form-control" id="inputPassword" value="{{ $Event->event_name }}">
     </div>
     @if($errors->has('event_name'))
     <div class="error">{{ $errors->first('event_name') }}</div>
@@ -58,7 +58,7 @@
   <div class="mb-3 row">
     <label for="Description" class="col-sm-4 col-form-label">Event Description</label>
     <div class="col-sm-12">
-      <textarea rows="5" cols="33"name="event_description" class="form-control" id="inputPassword" >{{ old('event_description') }}</textarea>
+      <textarea rows="5" cols="33"name="event_description" class="form-control" id="inputPassword" >{{ $Event->event_description }}</textarea>
     </div>
     @if($errors->has('event_description'))
     <div class="error">{{ $errors->first('event_description') }}</div>
@@ -68,7 +68,7 @@
   <div class="mb-3 row">
     <label for="Description" class="col-sm-4 col-form-label">Start Date</label>
     <div class="col-sm-12">
-    <input type="date" name="start_date" class="form-control" id="inputPassword" value="{{ old('start_date') }}">
+    <input type="date" name="start_date" class="form-control" id="inputPassword" >
  </div>
     @if($errors->has('start_date'))
     <div class="error">{{ $errors->first('start_date') }}</div>
@@ -78,13 +78,13 @@
   <div class="mb-3 row">
     <label for="end_date" class="col-sm-4 col-form-label">Event Description</label>
     <div class="col-sm-12">
-      <input type="date" name="end_date" class="form-control" id="inputPassword" value="{{ old('end_date') }}">
+      <input type="date" name="end_date" class="form-control" id="inputPassword" >
     </div>
     @if($errors->has('end_date'))
     <div class="error">{{ $errors->first('end_date') }}</div>
     @endif
   </div>
-  <button type="submit"  class="btn btn-primary">Submit</button>
+  <button type="submit"  class="btn btn-primary">Update</button>
 
 </form>
 

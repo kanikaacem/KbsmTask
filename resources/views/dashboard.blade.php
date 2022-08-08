@@ -7,20 +7,21 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <title>KSBM</title>
   </head>
   <body>
    <h1 class="heading"> Dashboard </h1>
-   @if (\Session::has('create_message'))
-    <div class="alert alert-info">
-        {!! \Session::get('create_message') !!}
+   @if (\Session::has('event_message'))
+    <div class="alert alert-info" x-data="{show: true}" x-init="setTimeout(() => show = false, 5000)" x-show="show">
+        {!! \Session::get('event_message') !!}
     </div>
   @endif
    
    <div class="button_div">
-   <a class="action_button" href="/agenda"> Create </a>
-   <a class="action_button" href="/logout" > Logout</a>
+   <a class="action_button btn btn-primary" href="/agenda"> Create </a>
+   <a class="action_button btn btn-primary" href="/logout" > Logout</a>
    </div>
 
    <h4 class="heading"> Events </h4>
@@ -31,9 +32,21 @@
               <th class="tableData tableHeading">Event Category</th>
               <th class="tableData tableHeading">Start Date</th>
               <th class="tableData tableHeading">End Date</th>
+              <th class="tableData tableHeading"> Action </th>
             </tr>
-            {{user_data}}
-            
+            @foreach($user_events as $event)
+            <tr class="EventTableRow">
+              <th class="tableData">{{$event->event_name}}</th>
+              <th class="tableData">{{$event->event_description}}</th>
+              <th class="tableData">{{$event->event_category}}</th>
+              <th class="tableData">{{date('d-m-Y', strtotime($event->start_date))}}</th>
+              <th class="tableData">{{date('d-m-Y', strtotime($event->end_date))}}</th>
+              <th class="tableData">  
+                  <a class="action_button btn btn-primary" href='edit/{{ $event->id }}'> Edit </a>
+                  <a class="action_button btn btn-primary" href='delete/{{ $event->id }}' > Delete</a>
+              </th>
+            </tr>
+            @endforeach
   </table>
 
   
@@ -69,14 +82,11 @@
    .action_button{
     text-decoration: none;
     color: white;
-    background: blue;
     border-radius: 5px;
     padding: 5px 10px;
     margin-right: 20px;
    }
-   .action_button:hover{
-    color:white;
-   }
+   
    .EventTable{
     display: table;
     width: 70%;
@@ -92,4 +102,10 @@
     border-bottom:1px solid black;
     text-align:center;
    }
+   .alert-info{
+      text-align:center;
+      width: 50%;
+      margin: 0 auto;
+    }
 </style>
+

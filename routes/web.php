@@ -30,3 +30,6 @@ Route::get("/agenda",function(){
 });
 
 Route::post('/add-event',[AppController::class,'addEvent']);
+Route::get('delete/{id}',[AppController::class,'deleteEvent']);
+Route::get('edit/{id}',[AppController::class,'editEvent']);
+Route::post('update-event',[AppController::class,'updateEvent']);
