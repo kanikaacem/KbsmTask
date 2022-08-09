@@ -89,7 +89,7 @@ class AppController extends Controller
 
     public function userLogout(){
       session()->forget('userlogin');
-      return redirect("/login")->with('login_error','user is logged out !!, Login Again');
+      return redirect("/login");
     }
 
     public function addEvent(Request $request){
@@ -117,12 +117,12 @@ class AppController extends Controller
     }
 
     public function deleteEvent(Request $request){
-        $Event = Event::find($request->id);
-        $Event->delete();
+        // $Event = Event::find($request->id);
+        // $Event->delete();
         return redirect("/dashboard")->with('event_message','Event is deleted');
 
     }
-
+// 
     public function EditEvent(Request $request){
         $Event = Event::find($request->id);
      
@@ -130,8 +130,31 @@ class AppController extends Controller
     }
 
     public function updateEvent(Request $request){
-        dd($request->all());
-        exit();
+        $validator = Validator::make($request->all(), [
+            'event_name' => 'required',
+            'event_description' => 'required',
+            'start_date' => 'required',
+            'end_date' => 'required'
+        ]);
+
+        if($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        $Event = Event::find($request->event_id);
+        $Event->event_name = $request->event_name;
+        $Event->event_description = $request->event_description;
+        $Event->event_category = implode(',', (array) $request->category);
+        $Event->start_date = $request->start_date;
+        $Event->end_date = $request->end_date;
+        $Event->save();
+        return redirect("/dashboard")->with('event_message','Event is updated');
+        
+    }
+
+    public function viewEvent(Request $request){
+        $Event = Event::find($request->id);
+        return view("viewEvent",compact('Event'));
     }
        
 }

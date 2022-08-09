@@ -16,6 +16,7 @@
   @if (\Session::has('login_error'))
     <div class="alert alert-info">
        {!! \Session::get('login_error') !!}
+       <a class="action_button" href="/"> Register </a>
     </div>
   @endif
    <form id="login_form"  method="POST" action="{{ url('login')  }}">
@@ -76,4 +77,17 @@
       width: 50%;
       margin: 0 auto;
     }
+    .action_button{
+      text-decoration: none;
+      color: white;
+      background: red;
+      border-radius: 5px;
+      padding: 5px 10px;
+      display: inline-block;
+      float: right;
+      margin-right: 20px;
+   }
+   .action_button:hover{
+    color:white;
+   }
 </style>

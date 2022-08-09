@@ -14,21 +14,22 @@
   <body>
    <h1 class="heading"> Dashboard </h1>
    @if (\Session::has('event_message'))
-    <div class="alert alert-info" x-data="{show: true}" x-init="setTimeout(() => show = false, 5000)" x-show="show">
+   <div class="alert alert-info" >
         {!! \Session::get('event_message') !!}
-    </div>
-  @endif
+    <a class="action_button" id="toastr" onclick="closeToastr()"> Close </a>
+  </div>
+    @endif
    
    <div class="button_div">
-   <a class="action_button btn btn-primary" href="/agenda"> Create </a>
-   <a class="action_button btn btn-primary" href="/logout" > Logout</a>
+   <a class=" btn btn-primary" href="/"> Back </a>
+   <a class=" btn btn-primary" href="/agenda"> Create </a>
+   <a class=" btn btn-primary" href="/logout" > Logout</a>
    </div>
 
    <h4 class="heading"> Events </h4>
    <table class="EventTable">
             <tr class="EventTableRow">
               <th class="tableData tableHeading">Event Name</th>
-              <th class="tableData tableHeading">Event Description</th>
               <th class="tableData tableHeading">Event Category</th>
               <th class="tableData tableHeading">Start Date</th>
               <th class="tableData tableHeading">End Date</th>
@@ -37,13 +38,13 @@
             @foreach($user_events as $event)
             <tr class="EventTableRow">
               <th class="tableData">{{$event->event_name}}</th>
-              <th class="tableData">{{$event->event_description}}</th>
               <th class="tableData">{{$event->event_category}}</th>
               <th class="tableData">{{date('d-m-Y', strtotime($event->start_date))}}</th>
               <th class="tableData">{{date('d-m-Y', strtotime($event->end_date))}}</th>
-              <th class="tableData">  
-                  <a class="action_button btn btn-primary" href='edit/{{ $event->id }}'> Edit </a>
-                  <a class="action_button btn btn-primary" href='delete/{{ $event->id }}' > Delete</a>
+              <th class="tableData">
+                  <a class=" btn btn-primary" href='view/{{ $event->id }}'> View </a>
+                  <a class=" btn btn-primary" href='edit/{{ $event->id }}'> Edit </a>
+                  <a class=" btn btn-primary" onclick="return confirm('Are you sure?')" href='delete/{{ $event->id }}' > Delete</a>
               </th>
             </tr>
             @endforeach
@@ -78,13 +79,21 @@
     align-items: flex-end;
     justify-content: flex-end;
     padding: 20px;
+    gap:10px;
    }
    .action_button{
-    text-decoration: none;
-    color: white;
-    border-radius: 5px;
-    padding: 5px 10px;
-    margin-right: 20px;
+      text-decoration: none;
+      color: white;
+      background: red;
+      border-radius: 5px;
+      padding: 5px 10px;
+      display: inline-block;
+      float: right;
+      margin-right: 20px;
+      cursor:pointer;
+   }
+   .action_button:hover{
+    color:white;
    }
    
    .EventTable{
@@ -104,8 +113,14 @@
    }
    .alert-info{
       text-align:center;
-      width: 50%;
+      width: 70%;
       margin: 0 auto;
     }
 </style>
+
+<script>
+  function closeToastr(){
+    document.querySelector(".alert-info").style.display = 'none';
+  }
+</script>
 

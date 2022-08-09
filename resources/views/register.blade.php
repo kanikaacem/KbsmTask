@@ -13,6 +13,7 @@
   </head>
   <body>
    <h1 class="heading"> Register</h1>
+  
    @if (\Session::has('already_registered'))
     <div class="alert alert-info">
         {!! \Session::get('already_registered') !!}
@@ -61,6 +62,13 @@
   <button type="submit"  class="btn btn-primary">Register</button>
 
 </form>
+    @if(session()->get('userlogin'))
+    <a class="action_button" href="/dashboard"> Go to Dashboard </a>
+
+    @else
+    <a class="action_button" href="/login"> Login </a>
+
+    @endif
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -94,6 +102,19 @@
       width: 50%;
       margin: 0 auto;
     }
+    .action_button{
+      text-decoration: none;
+      color: white;
+      background: red;
+      border-radius: 5px;
+      padding:7px;
+      position: absolute;
+      top: 52.5%;
+      left: 35%;
+   }
+   .action_button:hover{
+    color:white;
+   }
 </style>
 
 
